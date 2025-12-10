@@ -1,0 +1,17 @@
+node_modules
+.env
+dist
+build
+.DS_Store
+__pycache__
+*.pyc
+venv/
+uploads/
+*.pdf
+.idea
+.vscode
+coverage
+
+# ML specific
+ML/datasets/
+ML/models/
