@@ -1,0 +1,26 @@
+{
+  "name": "multi-predict",
+  "version": "1.0.0",
+  "description": "Multi-Predict is a comprehensive multi-disease prediction platform designed to predict heart disease, diabetes, breast cancer, and lung cancer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev --prefix Backend\" \"npm run dev --prefix Frontend\"",
+    "install-all": "npm install && npm install --prefix Backend && npm install --prefix Frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tishyaketu/multiPredict.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tishyaketu/multiPredict/issues"
+  },
+  "homepage": "https://github.com/Tishyaketu/multiPredict#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
