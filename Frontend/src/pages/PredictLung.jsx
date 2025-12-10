@@ -73,7 +73,12 @@ const PredictLung = () => {
                     <ResultModal
                         result={result}
                         type="Lung Cancer"
-                        onClose={() => setResult(null)}
+                        onClose={() => {
+                            setResult(null);
+                            setImage(null);
+                            setPreview(null);
+                        }}
+                        closeText="Start New Analysis"
                     />
                 )}
             </div>

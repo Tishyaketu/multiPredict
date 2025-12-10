@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../utils/api';
 
-const ResultModal = ({ result, type, onClose }) => {
+const ResultModal = ({ result, type, onClose, closeText }) => {
     const [downloading, setDownloading] = useState(false);
 
     const handleDownload = async () => {
@@ -52,7 +52,7 @@ const ResultModal = ({ result, type, onClose }) => {
                     <button onClick={handleDownload} disabled={downloading} className="btn-primary">
                         {downloading ? "Generating PDF..." : "Download Report"}
                     </button>
-                    <button onClick={onClose} className="btn-secondary">Close</button>
+                    <button onClick={onClose} className="btn-secondary">{closeText || "Close"}</button>
                 </div>
             </div>
         </div>

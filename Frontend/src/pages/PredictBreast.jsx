@@ -73,7 +73,12 @@ const PredictBreast = () => {
                     <ResultModal
                         result={result}
                         type="Breast Cancer"
-                        onClose={() => setResult(null)}
+                        onClose={() => {
+                            setResult(null);
+                            setImage(null);
+                            setPreview(null);
+                        }}
+                        closeText="Start New Analysis"
                     />
                 )}
             </div>
