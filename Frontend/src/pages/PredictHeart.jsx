@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import ResultModal from '../components/ResultModal';
+import PrescriptionUpload from '../components/PrescriptionUpload';
 import api from '../utils/api';
 
 const PredictHeart = () => {
@@ -37,11 +38,27 @@ const PredictHeart = () => {
         }
     };
 
+    const handleDataExtracted = (data) => {
+        // Merge extracted data with existing form data, but only if value is not null
+        const newFormData = { ...formData };
+
+        Object.keys(data).forEach(key => {
+            if (data[key] !== null && data[key] !== undefined) {
+                newFormData[key] = data[key].toString();
+            }
+        });
+
+        setFormData(newFormData);
+        alert("Form filled from prescription data!");
+    };
+
     return (
         <div className="dashboard-container">
             <Navbar />
             <div className="content">
                 <h1>Heart Disease Prediction</h1>
+
+                <PrescriptionUpload onDataExtracted={handleDataExtracted} />
 
                 <form onSubmit={handleSubmit} className="prediction-form">
                     <div className="form-grid">

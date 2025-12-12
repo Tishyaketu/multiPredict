@@ -22,5 +22,8 @@
   "homepage": "https://github.com/Tishyaketu/multiPredict#readme",
   "devDependencies": {
     "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
   }
 }

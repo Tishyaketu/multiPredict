@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { runPythonModel } from "../utils/runPythonModel.js";
+import { extractHeartData } from "../utils/pdfParser.js";
 import fs from "fs";
 import path from "path";
 
@@ -81,9 +82,31 @@ const predictLung = asyncHandler(async (req, res) => {
     }
 });
 
+// 5. Heart Disease Prescription Upload
+const uploadHeartPrescription = asyncHandler(async (req, res) => {
+    if (!req.file) {
+        throw new ApiError(400, "Prescription PDF is required");
+    }
+
+    const pdfPath = path.resolve(req.file.path);
+
+    try {
+        const extractedData = await extractHeartData(pdfPath);
+
+        // Cleanup temp file
+        fs.unlinkSync(pdfPath);
+
+        return res.status(200).json(new ApiResponse(200, extractedData, "Prescription data extracted successfully"));
+    } catch (error) {
+        if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
+        throw new ApiError(500, error.message || "Failed to extract data from prescription");
+    }
+});
+
 export {
     predictHeart,
     predictDiabetes,
     predictBreast,
-    predictLung
+    predictLung,
+    uploadHeartPrescription
 }

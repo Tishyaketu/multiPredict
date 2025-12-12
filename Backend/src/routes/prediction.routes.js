@@ -3,7 +3,8 @@ import {
     predictHeart,
     predictDiabetes,
     predictBreast,
-    predictLung
+    predictLung,
+    uploadHeartPrescription
 } from "../controllers/prediction.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -14,6 +15,7 @@ const router = Router();
 router.use(verifyJWT);
 
 router.route("/heart").post(predictHeart);
+router.route("/heart/upload-prescription").post(upload.single("prescription"), uploadHeartPrescription);
 router.route("/diabetes").post(predictDiabetes);
 
 // Image uploads for cancer
