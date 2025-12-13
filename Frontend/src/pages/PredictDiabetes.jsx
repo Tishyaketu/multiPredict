@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import ResultModal from '../components/ResultModal';
+import PrescriptionUpload from '../components/PrescriptionUpload';
 import api from '../utils/api';
 
 const PredictDiabetes = () => {
@@ -11,6 +12,17 @@ const PredictDiabetes = () => {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const handleDataExtracted = (data) => {
+        const newFormData = { ...formData };
+        Object.keys(data).forEach(key => {
+            if (data[key] !== null && data[key] !== undefined) {
+                newFormData[key] = data[key];
+            }
+        });
+        setFormData(newFormData);
+        alert("Form filled from prescription data!");
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,6 +53,11 @@ const PredictDiabetes = () => {
             <Navbar />
             <div className="content">
                 <h1>Diabetes Prediction</h1>
+
+                <PrescriptionUpload
+                    onDataExtracted={handleDataExtracted}
+                    endpoint="/predict/diabetes/upload-prescription"
+                />
 
                 <form onSubmit={handleSubmit} className="prediction-form">
                     <div className="form-grid">

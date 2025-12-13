@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../utils/api';
 
-const PrescriptionUpload = ({ onDataExtracted }) => {
+const PrescriptionUpload = ({ onDataExtracted, endpoint = '/predict/heart/upload-prescription' }) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ const PrescriptionUpload = ({ onDataExtracted }) => {
         formData.append('prescription', file);
 
         try {
-            const res = await api.post('/predict/heart/upload-prescription', formData, {
+            const res = await api.post(endpoint, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -44,4 +44,42 @@ const extractHeartData = async (filePath) => {
     }
 };
 
-export { extractHeartData };
+const extractDiabetesData = async (filePath) => {
+    const dataBuffer = fs.readFileSync(filePath);
+
+    try {
+        const data = await pdf(dataBuffer);
+        const text = data.text;
+
+        // Patterns based on row1.pdf inspection: "Label : Value"
+        const patterns = {
+            Pregnancies: /(?:Pregnancies)\s*[:=]\s*(\d+)/i,
+            Glucose: /(?:Glucose)\s*[:=]\s*(\d+)/i,
+            BloodPressure: /(?:BloodPressure|Blood Pressure)\s*[:=]\s*(\d+)/i,
+            SkinThickness: /(?:SkinThickness|Skin Thickness)\s*[:=]\s*(\d+)/i,
+            Insulin: /(?:Insulin)\s*[:=]\s*(\d+)/i,
+            BMI: /(?:BMI)\s*[:=]\s*(\d+(?:\.\d+)?)/i,
+            DiabetesPedigreeFunction: /(?:DiabetesPedigreeFunction|Diabetes Pedigree Function)\s*[:=]\s*(\d+(?:\.\d+)?)/i,
+            Age: /(?:Age)\s*[:=]\s*(\d+)/i
+        };
+
+        const extractedData = {};
+
+        for (const [key, pattern] of Object.entries(patterns)) {
+            const match = text.match(pattern);
+            if (match && match[1]) {
+                extractedData[key] = parseFloat(match[1]);
+            } else {
+                extractedData[key] = null;
+            }
+        }
+
+        return extractedData;
+
+    } catch (error) {
+        console.error("Error extracting diabetes PDF data:", error);
+        throw new Error("Failed to extract data from PDF");
+    }
+};
+
+export { extractHeartData, extractDiabetesData };

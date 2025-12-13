@@ -26,3 +26,9 @@
 
  MongoDB connected !! DB HOST: localhost
 ⚙️ Server is running at port : 8000
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
