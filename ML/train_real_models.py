@@ -1,11 +1,23 @@
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import joblib
 import os
+import sys
+
+# GPU vs CPU Configuration for Tabular Data
+try:
+    import cuml
+    from cuml.linear_model import LogisticRegression as LR_Impl
+    from cuml.svm import SVC as SVC_Impl
+    print("✅ RAPIDS cuML detected. Training will use GPU.")
+    USING_GPU = True
+except ImportError:
+    from sklearn.linear_model import LogisticRegression as LR_Impl
+    from sklearn.svm import SVC as SVC_Impl
+    print("⚠️ RAPIDS cuML not found. Falling back to CPU (Scikit-Learn).")
+    USING_GPU = False
 
 # Ensure models directory exists
 if not os.path.exists('models'):
@@ -21,7 +33,7 @@ try:
 
     X_train, X_test, y_train, y_test = train_test_split(X_heart, y_heart, test_size=0.2, random_state=42)
 
-    heart_model = LogisticRegression(max_iter=1000)
+    heart_model = LR_Impl(max_iter=1000)
     heart_model.fit(X_train, y_train)
 
     y_pred = heart_model.predict(X_test)
@@ -46,7 +58,7 @@ try:
 
     # Probability=True is important if we want confidence scores later, but user requirements just said SVM.
     # Standard SVM (SVC)
-    diabetes_model = SVC(probability=True) 
+    diabetes_model = SVC_Impl(probability=True) 
     diabetes_model.fit(X_train, y_train)
 
     y_pred = diabetes_model.predict(X_test)

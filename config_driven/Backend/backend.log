@@ -1,0 +1,115 @@
+
+> backend@1.0.0 dev
+> nodemon src/index.js
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+[PythonRunner] Executing: /home/tish/thas/dynamic/ML/predict_diabetes.py with args: [
+  '{"age":"31","sex":null,"trestbps":null,"chol":null,"fbs":"85","restecg":null,"thalach":null,"exang":null,"oldpeak":null,"slope":null,"ca":null,"thal":null,"cp":null,"Pregnancies":1,"Glucose":85,"BloodPressure":66,"SkinThickness":29,"Insulin":0,"BMI":26.6,"DiabetesPedigreeFunction":0.351,"Age":31}'
+]
+[PythonRunner] CWD: /home/tish/thas/dynamic/ML
+[PythonRunner Stderr]: /home/tish/thas/Multi-Predict/ML/venv/lib/python3.10/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but SVC was fitted with feature names
+  warnings.warn(
+
+[PythonRunner] Executing: /home/tish/thas/dynamic/ML/predict_diabetes.py with args: [
+  '{"age":"50","sex":null,"trestbps":null,"chol":null,"fbs":"148","restecg":null,"thalach":null,"exang":null,"oldpeak":null,"slope":null,"ca":null,"thal":null,"cp":null,"Pregnancies":6,"Glucose":148,"BloodPressure":72,"SkinThickness":35,"Insulin":0,"BMI":33.6,"DiabetesPedigreeFunction":0.627,"Age":50}'
+]
+[PythonRunner] CWD: /home/tish/thas/dynamic/ML
+[PythonRunner Stderr]: /home/tish/thas/Multi-Predict/ML/venv/lib/python3.10/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but SVC was fitted with feature names
+  warnings.warn(
+
+[PythonRunner] Executing: /home/tish/thas/dynamic/ML/predict_cancer.py with args: [
+  'breast',
+  '/home/tish/thas/dynamic/config_driven/Backend/public/temp/file-1765853775784-260852360.jpg'
+]
+[PythonRunner] CWD: /home/tish/thas/dynamic/ML
+[PythonRunner Stderr]: 2025-12-15 18:56:17.202443: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+
+[PythonRunner Stderr]: WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1765853783.515890   27084 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2248 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:01:00.0, compute capability: 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:56:25.511568: I external/local_xla/xla/service/service.cc:163] XLA service 0x773ce8006990 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-12-15 18:56:25.511621: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA GeForce GTX 1650, Compute Capability 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:56:25.547584: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+
+[PythonRunner Stderr]: 2025-12-15 18:56:25.616871: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91700
+
+[PythonRunner Stderr]: 2025-12-15 18:56:26.444704: I external/local_xla/xla/service/gpu/autotuning/conv_algorithm_picker.cc:546] Omitted potentially buggy algorithm eng14{k25=2} for conv (f32[1,64,47,47]{3,2,1,0}, u8[0]{0}) custom-call(f32[1,32,49,49]{3,2,1,0}, f32[64,32,3,3]{3,2,1,0}, f32[64]{0}), window={size=3x3}, dim_labels=bf01_oi01->bf01, custom_call_target="__cudnn$convBiasActivationForward", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kRelu","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]}
+
+[PythonRunner Stderr]: 2025-12-15 18:56:26.541401: I external/local_xla/xla/service/gpu/autotuning/conv_algorithm_picker.cc:546] Omitted potentially buggy algorithm eng14{k25=2} for conv (f32[1,64,21,21]{3,2,1,0}, u8[0]{0}) custom-call(f32[1,64,23,23]{3,2,1,0}, f32[64,64,3,3]{3,2,1,0}, f32[64]{0}), window={size=3x3}, dim_labels=bf01_oi01->bf01, custom_call_target="__cudnn$convBiasActivationForward", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kRelu","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]}
+
+[PythonRunner Stderr]: I0000 00:00:1765853786.961755   27134 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+
+[PythonRunner] Executing: /home/tish/thas/dynamic/ML/predict_cancer.py with args: [
+  'lung',
+  '/home/tish/thas/dynamic/config_driven/Backend/public/temp/file-1765853861261-819836484.png'
+]
+[PythonRunner] CWD: /home/tish/thas/dynamic/ML
+[PythonRunner Stderr]: 2025-12-15 18:57:41.951991: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+
+[PythonRunner Stderr]: WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1765853868.160284   27332 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2248 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:01:00.0, compute capability: 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:58:05.564263: I external/local_xla/xla/service/service.cc:163] XLA service 0x7df074002130 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-12-15 18:58:05.564347: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA GeForce GTX 1650, Compute Capability 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:58:05.947759: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+
+[PythonRunner Stderr]: 2025-12-15 18:58:10.065676: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91700
+
+[PythonRunner Stderr]: I0000 00:00:1765853894.623966   27381 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+
+[PythonRunner] Executing: /home/tish/thas/dynamic/ML/predict_cancer.py with args: [
+  'lung',
+  '/home/tish/thas/dynamic/config_driven/Backend/public/temp/file-1765853946814-792036098.png'
+]
+[PythonRunner] CWD: /home/tish/thas/dynamic/ML
+[PythonRunner Stderr]: 2025-12-15 18:59:07.525442: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+
+[PythonRunner Stderr]: WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1765853953.488058   27593 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2248 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:01:00.0, compute capability: 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:59:26.389360: I external/local_xla/xla/service/service.cc:163] XLA service 0x76db78004070 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-12-15 18:59:26.389419: I external/local_xla/xla/service/service.cc:171]   StreamExecutor device (0): NVIDIA GeForce GTX 1650, Compute Capability 7.5
+
+[PythonRunner Stderr]: 2025-12-15 18:59:26.786742: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+
+[PythonRunner Stderr]: 2025-12-15 18:59:30.318132: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91700
+
+[PythonRunner Stderr]: I0000 00:00:1765853974.571658   27642 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       [32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 [32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               [32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000

@@ -1,3 +1,80 @@
+import os
+import sys
+
+# ------------------------------------------------------------------------------
+# AUTO-CONFIGURATION FOR GPU SUPPORT
+# ------------------------------------------------------------------------------
+# 1. Switch to the known working venv python that has compatible TF+CUDA.
+# 2. Inject NVIDIA library paths into LD_LIBRARY_PATH.
+# ------------------------------------------------------------------------------
+
+def configure_gpu_env():
+    # Helper to resolve symlinks
+    def resolve(p):
+        return os.path.realpath(p)
+
+    # Only run this check if we haven't already fixed the env
+    if os.environ.get("TF_GPU_CONFIGURED") == "1":
+        return
+
+    # Target Configuration from Multi-Predict Project
+    target_venv_python = "/home/tish/thas/Multi-Predict/ML/venv/bin/python3"
+    venv_nvidia_path = "/home/tish/thas/Multi-Predict/ML/venv/lib/python3.10/site-packages/nvidia"
+    
+    # Check if we need to switch Python interpreter
+    # We switch if the target exists AND we are not currently running it
+    should_switch_python = False
+    if os.path.exists(target_venv_python):
+        if resolve(sys.executable) != resolve(target_venv_python):
+            should_switch_python = True
+            print(f"🔧 Switching to GPU-enabled Python: {target_venv_python}")
+
+    # Check if we need to update LD_LIBRARY_PATH
+    required_libs = [
+        "cuda_runtime/lib", "cudnn/lib", "cublas/lib", "cufft/lib",
+        "curand/lib", "cusolver/lib", "cusparse/lib", "nccl/lib"
+    ]
+    
+    current_ld_path = os.environ.get("LD_LIBRARY_PATH", "")
+    new_paths = []
+    
+    for lib in required_libs:
+        full_path = os.path.join(venv_nvidia_path, lib)
+        if os.path.isdir(full_path):
+            if full_path not in current_ld_path:
+                new_paths.append(full_path)
+    
+    # Decide if restart is needed (either for Python switch or Env update)
+    if should_switch_python or new_paths:
+        print("🔧 Configuring GPU environment...")
+        
+        # Prepare Environment
+        new_env = os.environ.copy()
+        if new_paths:
+            updated_ld_path = ":".join(new_paths) + ":" + current_ld_path
+            new_env["LD_LIBRARY_PATH"] = updated_ld_path
+        
+        new_env["TF_GPU_CONFIGURED"] = "1"
+        
+        # Determine executable
+        exe = target_venv_python if should_switch_python else sys.executable
+        
+        # Execute
+        print("🔄 Restarting script with correct configuration...")
+        try:
+            # We must pass the script path as the first argument to the new python
+            # sys.argv[0] is the script path
+            args = [exe] + sys.argv
+            os.execve(exe, args, new_env)
+        except Exception as e:
+            print(f"⚠️ Failed to restart script: {e}")
+            sys.exit(1)
+
+# Run configuration before importing tensorflow
+configure_gpu_env()
+
+import tensorflow as tf
+
 import tensorflow as tf
 from tensorflow.keras import layers, models, applications
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -9,17 +86,26 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # GPU Configuration
 gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-    try:
-        # Currently, memory growth needs to be the same across GPUs
-        for gpu in gpus:
-            tf.config.experimental.set_memory_growth(gpu, True)
-        print(f"✅ GPU Detected: {len(gpus)} device(s) found. using GPU.")
-    except RuntimeError as e:
-        # Memory growth must be set before GPUs have been initialized
-        print(e)
-else:
-    print("⚠️ No GPU detected. Training will use CPU.")
+if not gpus:
+    print("❌ CRITICAL: No GPU detected by TensorFlow.")
+    print("This script requires a GPU to run. CPU training is disabled per configuration.")
+    print("Diagnostics:")
+    print(f"  - Tensorflow Version: {tf.__version__}")
+    print(f"  - Visible Devices: {tf.config.list_physical_devices()}")
+    print("Potential Fixes:")
+    print("  1. Verify NVIDIA drivers are installed: `nvidia-smi`")
+    print("  2. Verify CUDA/cuDNN libraries are in LD_LIBRARY_PATH.")
+    print("  3. Install correct tensorflow-gpu version matching your CUDA version.")
+    sys.exit(1)
+
+try:
+    # Memory growth must be set before GPUs have been initialized
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
+    print(f"✅ GPU Detected: {len(gpus)} device(s) found. Training utilizing GPU.")
+except RuntimeError as e:
+    print(f"⚠️ GPU Initialization Error: {e}")
+    sys.exit(1)
 
 MODELS_DIR = 'models'
 if not os.path.exists(MODELS_DIR):
@@ -33,7 +119,7 @@ EPOCHS = 5 # Small number for demonstration. Increase for real performance.
 
 # 1. Breast Cancer (CNN)
 # Path: datasets/ultrasound breast classification/train/ [benign, malignant]
-BREAST_DIR = 'datasets/ultrasound breast classification/train'
+BREAST_DIR = 'datasets/Images for Breast Cancer/ultrasound breast classification/train'
 
 print("------------------------------------------------")
 print("Training Breast Cancer Model (Custom CNN)...")
