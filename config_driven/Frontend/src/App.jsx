@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import DynamicAnalysis from './pages/DynamicAnalysis';
 import ActivityLog from './pages/ActivityLog';
+import AdminDashboard from './pages/AdminDashboard';
+import EditDisease from './pages/EditDisease';
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/analysis/:slug" element={<DynamicAnalysis />} />
             <Route path="/activity" element={<ActivityLog />} />
+
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/new" element={<EditDisease />} />
+            <Route path="/admin/edit/:slug" element={<EditDisease />} />
           </Route>
         </Routes>
       </Router>

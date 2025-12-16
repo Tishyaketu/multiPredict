@@ -12,6 +12,7 @@ function Navbar() {
                     {user ? (
                         <>
                             <Link to="/" className="btn">Dashboard</Link>
+                            {user.email.endsWith('@multipredict.com') && <Link to="/admin" className="btn" style={{ background: '#fef3c7' }}>Admin</Link>}
                             <Link to="/activity" className="btn">Activity</Link>
                             <span style={{ margin: '0 0.5rem', color: '#cbd5e1' }}>|</span>
                             <span style={{ fontWeight: 500 }}>{user.fullName}</span>

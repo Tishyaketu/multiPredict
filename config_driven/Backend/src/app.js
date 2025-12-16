@@ -18,12 +18,12 @@ app.use(cookieParser());
 // routes import
 import userRouter from './routes/user.routes.js';
 import dynamicRouter from './routes/dynamic.routes.js';
-// import adminRouter from './routes/admin.routes.js';
+import adminRouter from './routes/admin.routes.js';
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/predict", dynamicRouter);
-// app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 app.use((err, req, res, next) => {
     if (err instanceof ApiError) {
