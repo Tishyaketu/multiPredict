@@ -52,8 +52,28 @@ const deleteConfig = asyncHandler(async (req, res) => {
     );
 });
 
+const getAdminConfigs = asyncHandler(async (req, res) => {
+    const configs = await DiseaseConfig.find({});
+    return res.status(200).json(
+        new ApiResponse(200, configs, "Admin configs fetched successfully")
+    );
+});
+
+const getAdminConfigBySlug = asyncHandler(async (req, res) => {
+    const { slug } = req.params;
+    const config = await DiseaseConfig.findOne({ slug });
+    if (!config) {
+        throw new ApiError(404, "Configs not found");
+    }
+    return res.status(200).json(
+        new ApiResponse(200, config, "Admin config fetched successfully")
+    );
+});
+
 export {
     createConfig,
     updateConfig,
-    deleteConfig
+    deleteConfig,
+    getAdminConfigs,
+    getAdminConfigBySlug
 };

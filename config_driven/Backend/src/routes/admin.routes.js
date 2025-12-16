@@ -1,9 +1,10 @@
-
 import { Router } from "express";
 import {
     createConfig,
     updateConfig,
-    deleteConfig
+    deleteConfig,
+    getAdminConfigs,
+    getAdminConfigBySlug
 } from "../controllers/admin.controller.js";
 import { verifyJWT, verifyAdmin } from "../middlewares/auth.middleware.js";
 
@@ -13,8 +14,12 @@ const router = Router();
 router.use(verifyJWT);
 router.use(verifyAdmin);
 
-router.route("/configs").post(createConfig);
+router.route("/configs")
+    .get(getAdminConfigs)
+    .post(createConfig);
+
 router.route("/configs/:slug")
+    .get(getAdminConfigBySlug)
     .put(updateConfig)
     .delete(deleteConfig);
 
