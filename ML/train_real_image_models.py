@@ -4,30 +4,37 @@ import sys
 # ------------------------------------------------------------------------------
 # AUTO-CONFIGURATION FOR GPU SUPPORT
 # ------------------------------------------------------------------------------
-# 1. Switch to the known working venv python that has compatible TF+CUDA.
-# 2. Inject NVIDIA library paths into LD_LIBRARY_PATH.
+# 1. Inject NVIDIA library paths into LD_LIBRARY_PATH from the CURRENT venv.
 # ------------------------------------------------------------------------------
 
 def configure_gpu_env():
-    # Helper to resolve symlinks
-    def resolve(p):
-        return os.path.realpath(p)
-
     # Only run this check if we haven't already fixed the env
     if os.environ.get("TF_GPU_CONFIGURED") == "1":
         return
 
-    # Target Configuration from Multi-Predict Project
-    target_venv_python = "/home/tish/thas/Multi-Predict/ML/venv/bin/python3"
-    venv_nvidia_path = "/home/tish/thas/Multi-Predict/ML/venv/lib/python3.10/site-packages/nvidia"
+    # Helper to resolve symlinks
+    def resolve(p):
+        return os.path.realpath(p)
+
+    # 1. Find where nvidia packages are installed in the current environment
+    # We look for the site-packages directory of the current executable
+    import site
+    site_packages = site.getsitepackages()
     
-    # Check if we need to switch Python interpreter
-    # We switch if the target exists AND we are not currently running it
-    should_switch_python = False
-    if os.path.exists(target_venv_python):
-        if resolve(sys.executable) != resolve(target_venv_python):
-            should_switch_python = True
-            print(f"🔧 Switching to GPU-enabled Python: {target_venv_python}")
+    venv_nvidia_path = None
+    for sp in site_packages:
+        candidate = os.path.join(sp, "nvidia")
+        if os.path.join(candidate):
+            venv_nvidia_path = candidate
+            break
+            
+    # Fallback: try to import nvidia and get path
+    if not venv_nvidia_path:
+        try:
+            import nvidia
+            venv_nvidia_path = os.path.dirname(nvidia.__file__)
+        except ImportError:
+            pass
 
     # Check if we need to update LD_LIBRARY_PATH
     required_libs = [
@@ -38,26 +45,25 @@ def configure_gpu_env():
     current_ld_path = os.environ.get("LD_LIBRARY_PATH", "")
     new_paths = []
     
-    for lib in required_libs:
-        full_path = os.path.join(venv_nvidia_path, lib)
-        if os.path.isdir(full_path):
-            if full_path not in current_ld_path:
-                new_paths.append(full_path)
+    if venv_nvidia_path:
+        for lib in required_libs:
+            full_path = os.path.join(venv_nvidia_path, lib)
+            if os.path.isdir(full_path):
+                if full_path not in current_ld_path:
+                    new_paths.append(full_path)
     
-    # Decide if restart is needed (either for Python switch or Env update)
-    if should_switch_python or new_paths:
+    # Decide if restart is needed
+    if new_paths:
         print("🔧 Configuring GPU environment...")
         
         # Prepare Environment
         new_env = os.environ.copy()
-        if new_paths:
-            updated_ld_path = ":".join(new_paths) + ":" + current_ld_path
-            new_env["LD_LIBRARY_PATH"] = updated_ld_path
-        
+        updated_ld_path = ":".join(new_paths) + ":" + current_ld_path
+        new_env["LD_LIBRARY_PATH"] = updated_ld_path
         new_env["TF_GPU_CONFIGURED"] = "1"
         
         # Determine executable
-        exe = target_venv_python if should_switch_python else sys.executable
+        exe = sys.executable
         
         # Execute
         print("🔄 Restarting script with correct configuration...")
@@ -75,7 +81,6 @@ configure_gpu_env()
 
 import tensorflow as tf
 
-import tensorflow as tf
 from tensorflow.keras import layers, models, applications
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
@@ -87,25 +92,16 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # GPU Configuration
 gpus = tf.config.list_physical_devices('GPU')
 if not gpus:
-    print("❌ CRITICAL: No GPU detected by TensorFlow.")
-    print("This script requires a GPU to run. CPU training is disabled per configuration.")
-    print("Diagnostics:")
-    print(f"  - Tensorflow Version: {tf.__version__}")
-    print(f"  - Visible Devices: {tf.config.list_physical_devices()}")
-    print("Potential Fixes:")
-    print("  1. Verify NVIDIA drivers are installed: `nvidia-smi`")
-    print("  2. Verify CUDA/cuDNN libraries are in LD_LIBRARY_PATH.")
-    print("  3. Install correct tensorflow-gpu version matching your CUDA version.")
-    sys.exit(1)
-
-try:
-    # Memory growth must be set before GPUs have been initialized
-    for gpu in gpus:
-        tf.config.experimental.set_memory_growth(gpu, True)
-    print(f"✅ GPU Detected: {len(gpus)} device(s) found. Training utilizing GPU.")
-except RuntimeError as e:
-    print(f"⚠️ GPU Initialization Error: {e}")
-    sys.exit(1)
+    print("⚠️ No GPU detected by TensorFlow.")
+    print("Training will proceed on CPU. This may be slow.")
+else:
+    try:
+        # Memory growth must be set before GPUs have been initialized
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        print(f"✅ GPU Detected: {len(gpus)} device(s) found. Training utilizing GPU.")
+    except RuntimeError as e:
+        print(f"⚠️ GPU Initialization Error: {e}")
 
 MODELS_DIR = 'models'
 if not os.path.exists(MODELS_DIR):
@@ -118,8 +114,8 @@ BATCH_SIZE = 32
 EPOCHS = 5 # Small number for demonstration. Increase for real performance.
 
 # 1. Breast Cancer (CNN)
-# Path: datasets/ultrasound breast classification/train/ [benign, malignant]
-BREAST_DIR = 'datasets/Images for Breast Cancer/ultrasound breast classification/train'
+# Path: datasets/Breast_Cancer/train/ [benign, malignant]
+BREAST_DIR = 'datasets/Breast_Cancer/train'
 
 print("------------------------------------------------")
 print("Training Breast Cancer Model (Custom CNN)...")
@@ -172,8 +168,8 @@ else:
 
 
 # 2. Lung Cancer (InceptionResNet)
-# Path: datasets/Lung Cancer DataSet/Data/train/ [4 classes]
-LUNG_DIR = 'datasets/Lung Cancer DataSet/Data/train'
+# Path: datasets/Lung_Cancer/train/ [4 classes]
+LUNG_DIR = 'datasets/Lung_Cancer/train'
 
 print("------------------------------------------------")
 print("Training Lung Cancer Model (InceptionResNetV2 Transfer Learning)...")
