@@ -43,9 +43,13 @@ I0000 00:00:1765860980.522685   11465 gpu_device.cc:2020] Created device /job:lo
 
 [PythonRunner Stderr]: I0000 00:00:1765861004.698479   11519 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
 
-ner Stderr]: 2025-12-15 20:49:02.562385: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91700
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
 
-[PythonRunner Stderr]: 2025-12-15 20:49:03.225830: I external/local_xla/xla/service/gpu/autotuning/conv_algorithm_picker.cc:546] Omitted potentially buggy algorithm eng14{k25=2} for conv (f32[1,64,47,47]{3,2,1,0}, u8[0]{0}) custom-call(f32[1,32,49,49]{3,2,1,0}, f32[64,32,3,3]{3,2,1,0}, f32[64]{0}), window={size=3x3}, dim_labels=bf01_oi01->bf01, custom_call_target="__cudnn$convBiasActivationForward", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kRelu","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]}
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+algorithm eng14{k25=2} for conv (f32[1,64,47,47]{3,2,1,0}, u8[0]{0}) custom-call(f32[1,32,49,49]{3,2,1,0}, f32[64,32,3,3]{3,2,1,0}, f32[64]{0}), window={size=3x3}, dim_labels=bf01_oi01->bf01, custom_call_target="__cudnn$convBiasActivationForward", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kRelu","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]}
 
 [PythonRunner Stderr]: 2025-12-15 20:49:03.319293: I external/local_xla/xla/service/gpu/autotuning/conv_algorithm_picker.cc:546] Omitted potentially buggy algorithm eng14{k25=2} for conv (f32[1,64,21,21]{3,2,1,0}, u8[0]{0}) custom-call(f32[1,64,23,23]{3,2,1,0}, f32[64,64,3,3]{3,2,1,0}, f32[64]{0}), window={size=3x3}, dim_labels=bf01_oi01->bf01, custom_call_target="__cudnn$convBiasActivationForward", backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"cudnn_conv_backend_config":{"activation_mode":"kRelu","conv_result_scale":1,"side_input_scale":0,"leakyrelu_alpha":0},"force_earliest_schedule":false,"reification_cost":[]}
 
@@ -61,6 +65,12 @@ ner Stderr]: 2025-12-15 20:49:02.562385: I external/local_xla/xla/stream_executo
 [32m[nodemon] restarting due to changes...[39m
 [32m[nodemon] starting `node src/index.js`[39m
 [dotenv@17.2.3] injecting env (7) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+
+ MongoDB connected !! DB HOST: localhost
+⚙️ Server is running at port : 8000
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/index.js`[39m
+[dotenv@17.2.3] injecting env (7) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
 
  MongoDB connected !! DB HOST: localhost
 ⚙️ Server is running at port : 8000

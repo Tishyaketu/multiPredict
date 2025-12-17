@@ -12,11 +12,11 @@ const seedData = [
         analysisType: "form",
         hasPrescriptionUpload: true,
         modelPath: "./dynamic/ML/models/heart_model.pkl",
-        scriptPath: "./dynamic/ML/predict_heart.py",
+        scriptPath: "./dynamic/ML/predict_form.py",
         icon: "heart_icon_url_placeholder",
         scriptInterface: {
-            type: "json_arg",
-            argsTemplate: ["<json_string>"]
+            type: "cli_args",
+            argsTemplate: ["heart", "<json_string>"]
         },
         formSchema: [
             { name: "age", label: "Age", inputType: "number", validation: { min: 1, max: 120, required: true } },
@@ -41,11 +41,11 @@ const seedData = [
         analysisType: "form",
         hasPrescriptionUpload: true,
         modelPath: "./dynamic/ML/models/diabetes_model.pkl",
-        scriptPath: "./dynamic/ML/predict_diabetes.py",
+        scriptPath: "./dynamic/ML/predict_form.py",
         icon: "diabetes_icon_url_placeholder",
         scriptInterface: {
-            type: "json_arg",
-            argsTemplate: ["<json_string>"]
+            type: "cli_args",
+            argsTemplate: ["diabetes", "<json_string>"]
         },
         formSchema: [
             { name: "Pregnancies", label: "Pregnancies", inputType: "number", validation: { min: 0, max: 20, required: true } },
