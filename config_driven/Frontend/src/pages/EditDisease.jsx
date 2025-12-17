@@ -53,12 +53,27 @@ function EditDisease() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let parsedInterface, parsedSchema;
         try {
-            // Parse JSON fields back to objects
+            parsedInterface = JSON.parse(formData.scriptInterface);
+        } catch (err) {
+            setError(`Invalid JSON in Script Interface: ${err.message}`);
+            return;
+        }
+
+        try {
+            parsedSchema = JSON.parse(formData.formSchema);
+        } catch (err) {
+            setError(`Invalid JSON in Form Schema: ${err.message}`);
+            return;
+        }
+
+        try {
             const payload = {
                 ...formData,
-                scriptInterface: JSON.parse(formData.scriptInterface),
-                formSchema: JSON.parse(formData.formSchema)
+                scriptInterface: parsedInterface,
+                formSchema: parsedSchema
             };
 
             if (isNew) {
@@ -68,9 +83,8 @@ function EditDisease() {
             }
             navigate('/admin');
         } catch (err) {
-            // Handle JSON parse errors or API errors
             console.error(err);
-            setError("Operation failed. Check JSON syntax or API logs.");
+            setError("Operation failed. Check API logs.");
         }
     };
 
