@@ -9,25 +9,35 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [admin, setAdmin] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Check if user is logged in on mount
+    // Check if user or admin is logged in on mount
     useEffect(() => {
-        const checkUser = async () => {
+        const checkAuth = async () => {
             try {
-                const res = await api.get("/users/current-user");
-                if (res.data.success) {
-                    setUser(res.data.data);
+                // Try to fetch user
+                const userRes = await api.get("/users/current-user");
+                if (userRes.data.success) {
+                    setUser(userRes.data.data);
                 }
             } catch (error) {
-                // Not logged in or token expired
-                console.log("Not logged in");
                 setUser(null);
+            }
+
+            try {
+                // Try to fetch admin
+                const adminRes = await api.get("/admin-auth/current-admin");
+                if (adminRes.data.success) {
+                    setAdmin(adminRes.data.data);
+                }
+            } catch (error) {
+                setAdmin(null);
             } finally {
                 setLoading(false);
             }
         };
-        checkUser();
+        checkAuth();
     }, []);
 
     const login = async (email, password) => {
@@ -52,12 +62,38 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const adminLogin = async (email, password) => {
+        const res = await api.post("/admin-auth/login", { email, password });
+        if (res.data.success) {
+            setAdmin(res.data.data.admin);
+            return res.data;
+        }
+    };
+
+    const adminRegister = async (fullName, email, password) => {
+        const res = await api.post("/admin-auth/register", { fullName, email, password });
+        return res.data;
+    };
+
+    const adminLogout = async () => {
+        try {
+            await api.post("/admin-auth/logout");
+            setAdmin(null);
+        } catch (error) {
+            console.error("Admin logout failed", error);
+        }
+    };
+
     const value = {
         user,
+        admin,
         loading,
         login,
         register,
-        logout
+        logout,
+        adminLogin,
+        adminRegister,
+        adminLogout
     };
 
     return (

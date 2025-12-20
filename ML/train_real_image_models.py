@@ -118,8 +118,8 @@ BATCH_SIZE = 32
 EPOCHS = 5 # Small number for demonstration. Increase for real performance.
 
 # 1. Breast Cancer (CNN)
-# Path: datasets/ultrasound breast classification/train/ [benign, malignant]
-BREAST_DIR = 'datasets/Images for Breast Cancer/ultrasound breast classification/train'
+# Path: datasets/Breast_Cancer/
+BREAST_DIR = 'datasets/Breast_Cancer/train'
 
 print("------------------------------------------------")
 print("Training Breast Cancer Model (Custom CNN)...")
@@ -172,8 +172,8 @@ else:
 
 
 # 2. Lung Cancer (InceptionResNet)
-# Path: datasets/Lung Cancer DataSet/Data/train/ [4 classes]
-LUNG_DIR = 'datasets/Lung Cancer DataSet/Data/train'
+# Path: datasets/Lung_Cancer/train/ [4 classes]
+LUNG_DIR = 'datasets/Lung_Cancer/train'
 
 print("------------------------------------------------")
 print("Training Lung Cancer Model (InceptionResNetV2 Transfer Learning)...")

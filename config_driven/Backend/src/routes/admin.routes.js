@@ -6,12 +6,12 @@ import {
     getAdminConfigs,
     getAdminConfigBySlug
 } from "../controllers/admin.controller.js";
-import { verifyJWT, verifyAdmin } from "../middlewares/auth.middleware.js";
+import { verifyAdminJWT, verifyAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
 // Protect all admin routes
-router.use(verifyJWT);
+router.use(verifyAdminJWT);
 router.use(verifyAdmin);
 
 router.route("/configs")

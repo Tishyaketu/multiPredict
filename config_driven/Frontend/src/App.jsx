@@ -4,11 +4,14 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import AdminLogin from './pages/AdminLogin';
+import AdminRegister from './pages/AdminRegister';
 import Dashboard from './pages/Dashboard';
 import DynamicAnalysis from './pages/DynamicAnalysis';
 import ActivityLog from './pages/ActivityLog';
 import AdminDashboard from './pages/AdminDashboard';
 import EditDisease from './pages/EditDisease';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 function App() {
   return (
@@ -18,12 +21,16 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/register" element={<AdminRegister />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/analysis/:slug" element={<DynamicAnalysis />} />
             <Route path="/activity" element={<ActivityLog />} />
+          </Route>
 
+          <Route element={<AdminProtectedRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/new" element={<EditDisease />} />
             <Route path="/admin/edit/:slug" element={<EditDisease />} />
